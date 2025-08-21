@@ -73,7 +73,7 @@ This project sends birthday notifications via Telegram using data stored in a My
 - `post_msg(name)`: Sends a Telegram message.
 - `execute_today()`: Main function to check and send notifications.
 
-## License
+
 ## License
 
 No license. All rights reserved.
