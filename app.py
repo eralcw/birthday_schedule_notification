@@ -71,7 +71,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.title("Olá!")
-    nome = st.text_input("Digite nome:")
+    birthdates = st.text_input("Digite nome:")
     if st.button("Enviar"):
         print(execute_today())
 
