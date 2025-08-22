@@ -5,7 +5,7 @@ import mysql.connector
 import mysql.connector.errorcode as Error
 from dotenv import load_dotenv
 import requests
-
+#streamlit run app.py
 load_dotenv('.env')
 
 def get_connection():
@@ -67,16 +67,29 @@ def execute_today():
     for i in today:
         post_msg(i["name"])
 
+def create_data(name, dt):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO birth (name, date_birth) VALUES (%s, %s);", (name, dt))
+    conn.commit()
+
 col1, col2 = st.columns(2)
 
 with col1:
-    st.title("Olá!")
-    birthdates = st.text_input("Digite nome:")
+    st.subheader("Cadastre a sua data de nascimento")
+    nome = st.text_input("Digite o nome:")
+    data = st.date_input(
+    "Escolha uma data",
+    value="2025-08-22",   
+    min_value="1930-01-01",
+    max_value="2025-08-22"
+    )
+    name = nome
+    dt = data
+
     if st.button("Enviar"):
-        print(execute_today())
+        print(create_data(name, dt))
 
 
-with col2:
-    if st.button('Enviar nome'):
-        st.write(f"{nome}")
+
 
