@@ -72,24 +72,71 @@ def create_data(name, dt):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO birth (name, date_birth) VALUES (%s, %s);", (name, dt))
     conn.commit()
+    if cursor.rowcount == 0:
+        return f"Não foi possivel cadastrar"
+    else:
+        return f"Cadastrado com sucesso!"
 
+def alter_data(new_name, name):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE birth SET name = %s WHERE name = %s;", (new_name, name))
+    conn.commit()
+    print(cursor.rowcount)
+    if cursor.rowcount == 0:
+        return f"Não existe a pessoa para esse nome"
+    else:
+        return f"Alterado com sucesso!"
+
+def delete_name(name):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM birth WHERE name = %s;", (name,))
+    conn.commit()
+    if cursor.rowcount == 0:
+        return f"Não existe pessoas para excluir"
+    else:
+        return f"Excluido!"
+
+delete_name("example 3")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Cadastre a sua data de nascimento")
-    nome = st.text_input("Digite o nome:")
+    st.subheader("Cadastre")
+    nome = st.text_input("Digite o nome:", key="nome1")
     data = st.date_input(
     "Escolha uma data",
     value="2025-08-22",   
     min_value="1930-01-01",
-    max_value="2025-08-22"
+    max_value="2026-01-01"
     )
     name = nome
     dt = data
 
-    if st.button("Enviar"):
-        print(create_data(name, dt))
+    if st.button("Enviar", key="enviar2"):
+        st.write(create_data(name, dt))
 
+    st.markdown(
+    """
+    <div style="height:3px; background-color:#3498db; margin:20px 0;"></div>
+    """,
+    unsafe_allow_html=True
+)
+    st.subheader("Alterar")
+    novo_nome = st.text_input("Digite o novo nome:")
+    nome1 = st.text_input("Digite o nome:", key="nome2")
+    
+    if st.button("Enviar", key="enviar1"):
+        st.write(alter_data(new_name = novo_nome, name = nome1))
 
-
-
+    st.markdown(
+    """
+    <div style="height:3px; background-color:#3498db; margin:20px 0;"></div>
+    """,
+    unsafe_allow_html=True
+    )
+    st.subheader("Excluir")
+    excluir_nome = st.text_input("Digite o nome:", key="nome3")
+    
+    if st.button("Enviar", key="enviar3"):
+        st.write(delete_name(name = excluir_nome))
