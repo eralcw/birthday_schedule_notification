@@ -98,7 +98,21 @@ def delete_name(name):
     else:
         return f"Excluido!"
 
-delete_name("example 3")
+def get_month():
+  conn = get_connection()
+  today = datetime.now()
+  cursor = conn.cursor()
+  cursor.execute("SELECT name, date_birth FROM birth")
+  resultado = cursor.fetchall()
+  data = []
+  for name, date_birth in resultado:
+    if date_birth.month == today.month:
+      data.append({
+        "name": name,
+        "birth": date_birth
+      })
+  return data
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -140,3 +154,9 @@ with col1:
     
     if st.button("Enviar", key="enviar3"):
         st.write(delete_name(name = excluir_nome))
+
+
+with col2:
+    st.subheader("Aniversáriantes do mês!")
+    if st.button("Aperte para saber"):
+        st.write(get_month())
