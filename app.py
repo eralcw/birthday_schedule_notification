@@ -160,3 +160,16 @@ with col2:
     st.subheader("Aniversáriantes do mês!")
     if st.button("Aperte para saber"):
         st.write(get_month())
+
+    st.markdown(
+    """
+    <div style="height:3px; background-color:#3498db; margin:20px 0;"></div>
+    """,
+    unsafe_allow_html=True
+    )
+    
+    st.subheader("Aniversariantes do dia!")
+    if st.button("Descubra do dia"):
+        st.write(get_today())
+    if st.button("Poste uma mensagem!"):
+        st.write(execute_today())
